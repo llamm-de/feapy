@@ -22,7 +22,7 @@ setup(
     ],
     license="GNU General Public License v2 or later (GPLv2+)",
     packages=["feapy"],
-    install_requires=[],
+    install_requires=["pandas", "jinja2", "numpy", "meshio"],
     include_package_data=True,
     zip_safe=False,
 )
