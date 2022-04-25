@@ -9,7 +9,7 @@ class Postprocessor:
     def __init__(self, working_directory):
         self.workin_directory = working_directory
 
-    def get_volume(self, deformed=True, dataframe=True):
+    def get_volume(self, deformed=True, dataframe=True, normalize=True):
         vtu_files = self._get_files("vtu")
         vol = []
         timestep = []
@@ -18,6 +18,11 @@ class Postprocessor:
             mesh_data = meshio.read(file.path)
             vol.append(self._volume(mesh_data, deformed))
             timestep.append(file.id)
+
+        if normalize:
+            ref = vol[0]
+            for entry in vol:
+                entry = entry / ref
 
         if dataframe:
             return pd.DataFrame({"timestep": timestep, "volume": vol})
