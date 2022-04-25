@@ -22,8 +22,8 @@ class FEAPy:
         with open(std_out, "w") as out, open(std_err, "w") as err:
             res = subprocess.run(
                 [self.executable, args],
-                stdout=std_out,
-                stderr=std_err,
+                stdout=out,
+                stderr=err,
                 cwd=self.working_dir,
             )
 
@@ -58,7 +58,7 @@ class FEAPy:
 
         return data
 
-    def create_inputfile(self, inputfile, parameters, template_path=os.getcwd):
+    def create_inputfile(self, inputfile, parameters, template_path=os.getcwd()):
         """
         Create FEAP inputfile from template
         """
