@@ -1,13 +1,25 @@
+from genericpath import exists
 import os
 import subprocess
 import pandas as pd
 import jinja2
+import shutil
 
 
 class FEAPy:
-    def __init__(self, executable="feap", working_dir=os.getcwd) -> None:
+    def __init__(self, executable="feap", working_dir=os.getcwd()) -> None:
         self.executable = executable
         self.working_dir = working_dir
+
+        # Check if executable exists
+        if not shutil.which(self.executable):
+            raise RuntimeError(
+                f"[FEAPy] Did not find executable {self.executable} on your path!"
+            )
+
+        # Check if directory exists
+        if not os.path.exists(self.working_dir):
+            raise RuntimeError(f"[FEAPy] Directory {self.working_dir} does not exist!")
 
     def run(self, inputfile):
         """
@@ -29,7 +41,7 @@ class FEAPy:
 
         return res
 
-    def read_output(self, inputfile, sum_names, dis_names, str_names):
+    def read_output(self, inputfile, sum_names=None, dis_names=None, str_names=None):
         """
         Read FEAP output from putput files
 
