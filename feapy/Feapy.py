@@ -4,7 +4,7 @@ import pandas as pd
 import jinja2
 import shutil
 from .Common import get_files_by_extension, remove_old_files
-from vtu import VTUFile, VTURefactorer
+from .vtu import VTUFile, VTURefactorer
 
 
 class FEAPy:
