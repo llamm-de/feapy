@@ -1,8 +1,7 @@
-import os
-import re
 import pandas as pd
 import meshio
 import numpy as np
+from .Common import get_files_by_extension
 
 
 class Postprocessor:
@@ -10,7 +9,7 @@ class Postprocessor:
         self.workin_directory = working_directory
 
     def get_volume(self, deformed=True, dataframe=True, normalize=True):
-        vtu_files = self._get_files("vtu")
+        vtu_files = get_files_by_extension(self.workin_directory, "vtu")
         vol = []
         timestep = []
 
@@ -87,33 +86,3 @@ class Postprocessor:
             coordinates.append(local_coordinates)
 
         return coordinates
-
-    def _get_files(self, extension):
-        """
-        Get files by extension from directory
-
-        Returns a list of vtu_file objects
-        """
-        regex = re.compile(r"\d+")
-        files = []
-        for file in os.listdir(self.workin_directory):
-            if file.endswith(f".{extension}") or file.endswith(extension):
-                f = vtu_file(
-                    os.path.join(self.workin_directory, file),
-                    int(regex.findall(file)[0]),
-                )
-                files.append(f)
-                continue
-        files.sort(key=lambda x: x.path)
-
-        return files
-
-
-class vtu_file:
-    """
-    Simple dataclass to store information about vtu_files
-    """
-
-    def __init__(self, path, id):
-        self.path = path
-        self.id = id

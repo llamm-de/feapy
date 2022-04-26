@@ -1,9 +1,10 @@
-from genericpath import exists
 import os
 import subprocess
 import pandas as pd
 import jinja2
 import shutil
+from .Common import get_files_by_extension, remove_old_files
+from vtu import VTUFile, VTURefactorer
 
 
 class FEAPy:
@@ -83,3 +84,22 @@ class FEAPy:
 
         with open(os.path.join(self.working_dir, inputfile), "w") as f:
             f.write(output_text)
+
+    def refactor_vtu(self, refactor_pattern, keep_originals=True):
+        """
+        Refactoring vtu files is working directory to match refactor_pattern
+        """
+
+        vtu_file_names = get_files_by_extension(self.working_dir, "vtu")
+
+        for file_name in vtu_file_names:
+            vtu_file = VTUFile(file_name.path)
+            refac = VTURefactorer(vtu_file, refactor_pattern)
+            refac.refactor()
+
+            filename, file_extension = os.path.splitext(file_name)
+            OUTPUTFILE = filename + "_refactored" + file_extension
+            vtu_file.export_file(OUTPUTFILE)
+
+        if not keep_originals:
+            remove_old_files(self.working_dir)
