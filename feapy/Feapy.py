@@ -4,7 +4,8 @@ import pandas as pd
 import jinja2
 import shutil
 from .Common import get_files_by_extension, remove_old_files
-from .vtu import VTUFile, VTURefactorer
+from .vtu.VTUFile import VTUFile
+from .vtu.VTURefactorer import VTURefactorer
 
 
 class FEAPy:
@@ -97,7 +98,7 @@ class FEAPy:
             refac = VTURefactorer(vtu_file, refactor_pattern)
             refac.refactor()
 
-            filename, file_extension = os.path.splitext(file_name)
+            filename, file_extension = os.path.splitext(file_name.path)
             OUTPUTFILE = filename + "_refactored" + file_extension
             vtu_file.export_file(OUTPUTFILE)
 
