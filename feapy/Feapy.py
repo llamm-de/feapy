@@ -3,6 +3,7 @@ import subprocess
 import pandas as pd
 import jinja2
 import shutil
+import glob
 from .Common import get_files_by_extension, remove_old_files
 from .vtu.VTUFile import VTUFile
 from .vtu.VTURefactorer import VTURefactorer
@@ -22,6 +23,30 @@ class FEAPy:
         # Check if directory exists
         if not os.path.exists(self.working_dir):
             raise RuntimeError(f"[FEAPy] Directory {self.working_dir} does not exist!")
+
+    def clean(self, file_list=None):
+        """
+        Clean simulation directory
+        """
+
+        if not file_list:
+            file_list = [
+                "feapname",
+                "feap_err",
+                "feap_out",
+                "I*",
+                "M*",
+                "O*",
+                "L*",
+                "*.dis",
+                "*.str",
+                "*.sum",
+                "*.vtu",
+            ]
+
+        for file in file_list:
+            for f in glob.glob(os.path.join(self.working_dir, file)):
+                os.remove(f)
 
     def run(self, inputfile):
         """
