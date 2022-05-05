@@ -7,12 +7,36 @@ import glob
 from .Common import get_files_by_extension, remove_old_files
 from .vtu.VTUFile import VTUFile
 from .vtu.VTURefactorer import VTURefactorer
+import datetime
+
+
+def directory_exists(directory):
+    """
+    Check if directory exists on file system
+    """
+    if not os.path.exists(directory):
+        raise RuntimeError(f"[FEAPy] Directory {directory} does not exist!")
+
+    return True
 
 
 class FEAPy:
     def __init__(self, executable="feap", working_dir=os.getcwd()) -> None:
         self.executable = executable
         self.working_dir = working_dir
+        self.file_list = [
+            "feapname",
+            "feap_err",
+            "feap_out",
+            "I*",
+            "M*",
+            "O*",
+            "L*",
+            "*.dis",
+            "*.str",
+            "*.sum",
+            "*.vtu",
+        ]
 
         # Check if executable exists
         if not shutil.which(self.executable):
@@ -21,8 +45,7 @@ class FEAPy:
             )
 
         # Check if directory exists
-        if not os.path.exists(self.working_dir):
-            raise RuntimeError(f"[FEAPy] Directory {self.working_dir} does not exist!")
+        directory_exists(self.working_dir)
 
     def clean(self, file_list=None):
         """
@@ -30,19 +53,7 @@ class FEAPy:
         """
 
         if not file_list:
-            file_list = [
-                "feapname",
-                "feap_err",
-                "feap_out",
-                "I*",
-                "M*",
-                "O*",
-                "L*",
-                "*.dis",
-                "*.str",
-                "*.sum",
-                "*.vtu",
-            ]
+            file_list = self.file_list
 
         for file in file_list:
             for f in glob.glob(os.path.join(self.working_dir, file)):
