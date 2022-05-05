@@ -59,6 +59,31 @@ class FEAPy:
             for f in glob.glob(os.path.join(self.working_dir, file)):
                 os.remove(f)
 
+    def archive(self, archive_dir=None, file_list=None):
+        """
+        Archive simulation files from working directory
+        """
+
+        if not file_list:
+            file_list = self.file_list
+
+        # Check if archive directory exists or set default
+        if archive_dir:
+            directory_exists(archive_dir)
+        else:
+            now = datetime.datetime.now()
+            archive_dir = os.path.join(
+                self.working_dir,
+                f"archive_{now.year}_{now.month}_{now.day}_{now.hour}_{now.minute}_{now.second}",
+            )
+
+        os.mkdir(archive_dir)
+
+        for file in file_list:
+            for f in glob.glob(os.path.join(self.working_dir, file)):
+                filename = os.path.basename(f)
+                shutil.move(f, os.path.join(archive_dir, filename))
+
     def run(self, inputfile):
         """
         Run computation using inputfile
