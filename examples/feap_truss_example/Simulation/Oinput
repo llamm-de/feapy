@@ -1,0 +1,204 @@
+ FEAP * *                                                                       
+
+     Solution date: Wed May 11 13:53:15 2022
+
+              Release 8.6.1d      
+              27 July 2020        
+
+     Input Data Filename: Iinput                                                                                                                          
+
+     Number of Nodal Points  - - - - - - :        4
+     Number of Elements  - - - - - - - - :        5
+
+     Spatial Dimension of Mesh - - - - - :        2
+     Degrees-of-Freedom/Node (Maximum) - :        2
+     Equations/Element       (Maximum) - :        0
+     Number Element Nodes    (Maximum) - :        2
+
+     Number of Material Sets - - - - - - :        1
+     Number Parameters/Set   (Program) - :      350
+     Number Parameters/Set   (Users  ) - :      150
+
+     Number Added Element Equations  - - :        0
+
+ FEAP * *                                                                      
+
+   M a t e r i a l    P r o p e r t i e s
+
+     Material Number   1: Element Type: TRUSS:                           
+     Degree of Freedom Assignments    Local    Global
+                                     Number    Number
+                                        1         1
+                                        2         2
+
+         T r u s s    E l e m e n t
+
+     M e c h a n i c a l   P r o p e r t i e s
+
+          Truss & Frame Analysis
+
+          Modulus E        1.00000E+04
+          Poisson ratio    0.00000
+
+          Density          0.00000E+00
+
+          1-Gravity Load   0.00000E+00
+          2-Gravity Load   0.00000E+00
+          3-Gravity Load   0.00000E+00
+
+     C r o s s   S e c t i o n   P a r a m e t e r s
+
+          Area          2.50000E-01
+
+     C o n s t i t u t i v e    S t a r t
+
+          Start state  : Elastic
+
+     E l e m e n t    M o d e l
+
+          Formulation  : Small Deformation.
+          Plot Output  : On
+          Interpolation: Lagrangian Polynomials
+          History terms/pt  =     0
+
+     W a r n i n g s   &   E r r o r s
+          Material density is zero.
+
+ FEAP * *                                                                      
+
+     Nodal Coordinates   
+
+      Node    1 Coord    2 Coord
+         1  0.000E+00  0.000E+00
+         2  1.000E+01  0.000E+00
+         3  2.000E+01  0.000E+00
+         4  1.000E+01  1.000E+01
+
+          Part(   1) = PART0001       
+
+ FEAP * *                                                                      
+
+     E l e m e n t   C o n n e c t i o n s 
+
+    Elmt Mat Reg  Type  1 Node  2 Node
+       1   1   0 Unkn?       1       2
+       2   1   0 Unkn?       2       3
+       3   1   0 Unkn?       1       4
+       4   1   0 Unkn?       4       3
+       5   1   0 Unkn?       2       4
+
+          Part(   1): Elm start =       1
+                      Elm last  =       5
+                      Nodes/el. =       2
+
+ FEAP * *                                                                      
+
+  N o d a l   B. C.
+
+      Node 1-b.c. 2-b.c.
+         1      1      1
+         3      0      1
+
+ FEAP * *                                                                      
+
+     Nodal Forces        
+
+      Node    1 Force    2 Force
+         4  1.000E+01  0.000E+00
+
+     E l e m e n t   S i z e   V a l u e s
+          h-minimum =  1.0000E+01
+          h-maximum =  1.4142E+01
+
+     Material    Element Tag   Element Type  NH1/2 History    NH3 History
+          1              1      Truss                  0              4
+
+     P a r t i t i o n   1
+
+     E q u a t i o n / P r o b l e m   S u m m a r y:
+
+       Mesh dimension  (ndm) =         2 :  Number nodes     =               4
+       Number dof/node (ndf) =         2 :  Number elements  =               5
+       Element eqs.   (nadd) =         0 :  Number materials =               1
+       Number rigid bodies   =         0 :  Number equations =               5
+                                         :  Number global eq =               0
+       Number joints         =         0 :  Number tang terms=              10
+       Transient integrator  = Static    :  Average col. ht. =               3
+
+
+  ---------------------------- END OF MESH INPUTS ----------------------------
+
+
+ FEAP * *                                                                      
+
+     Solution Commands       Variable 1  Variable 2  Variable 3
+       CHECk                 0.0000E+00  0.0000E+00  0.0000E+00
+       PLOT      MESH        0.0000E+00  0.0000E+00  0.0000E+00
+       PLOT      DISP        0.0000E+00  0.0000E+00  0.0000E+00
+       PLOT      BOUNdary    0.0000E+00  0.0000E+00  0.0000E+00
+       PLOT      LOAD        0.0000E+00  0.0000E+00  0.0000E+00
+       TANGent               0.0000E+00  0.0000E+00  0.0000E+00
+       FORM                  0.0000E+00  0.0000E+00  0.0000E+00
+       SOLV                  0.0000E+00  0.0000E+00  0.0000E+00
+       DISPlacem ALL         0.0000E+00  0.0000E+00  0.0000E+00
+       STREss    ALL         0.0000E+00  0.0000E+00  0.0000E+00
+ *Command   1 * chec                v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+     Restrained Degree-of-Freedom Check
+               DOF   Fixed
+          ----------------
+                 1       1
+                 2       2
+          ----------------
+                On       4 Nodes
+
+ *Command   2 * plot MESH           v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+ *Command   3 * plot DISP           v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+ *Command   4 * plot BOUNdary       v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+ *Command   5 * plot LOAD           v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+ *Command   6 * tang                v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+                                                           t=     0.01     0.01
+ Condition check: D-max 0.5000E+03; D-min 0.1306E+03; Ratio 0.3828E+01
+ Maximum no. diagonal digits lost:  1
+   End Triangular Decomposition                            t=     0.01     0.01
+ *Command   7 * form                v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+      DOF   1   3.3333333E+00   7.6923077E-01
+      DOF   2   0.0000000E+00   0.0000000E+00
+   Residual 1 norm =    1.0000000E+01   1.0000000E+00      t=     0.01     0.01
+ *Command   8 * solv                v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+   Energy convergence test
+    Initial   =    7.656854249492383E-01 Current   =    7.656854249492383E-01
+    Relative  =    1.000000000000000E+00 Tolerance =    1.000000000000000E-16
+ *Command   9 * disp ALL            v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+
+ FEAP * *                                                                      
+
+  N o d a l   D i s p l a c e m e n t s     Time       0.00000E+00
+                                            Prop. Ld.  1.00000E+00
+
+    Node     1 Coord     2 Coord     1 Displ     2 Displ
+       1  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
+       2  1.0000E+01  0.0000E+00  2.0000E-02 -2.0000E-02
+       3  2.0000E+01  0.0000E+00  4.0000E-02  0.0000E+00
+       4  1.0000E+01  1.0000E+01  7.6569E-02 -2.0000E-02
+ *Command  10 * stre ALL            v:   0.00       0.00       0.00    
+                                                           t=     0.01     0.01
+ FEAP * *                                                                        
+
+         Truss Element
+
+ Elmt Matl    1-coord    2-coord    3-coord     Force         Strain          Flux
+    1    1  5.000E+00  0.000E+00  0.000E+00   5.00000E+00   2.00000E-03   0.00000E+00
+    2    1  1.500E+01  0.000E+00  0.000E+00   5.00000E+00   2.00000E-03   0.00000E+00
+    3    1  5.000E+00  5.000E+00  0.000E+00   7.07107E+00   2.82843E-03   0.00000E+00
+    4    1  1.500E+01  5.000E+00  0.000E+00  -7.07107E+00  -2.82843E-03   0.00000E+00
+    5    1  1.000E+01  5.000E+00  0.000E+00   0.00000E+00   0.00000E+00   0.00000E+00
+ *End of Solution Execution*                               t=     0.01     0.01
