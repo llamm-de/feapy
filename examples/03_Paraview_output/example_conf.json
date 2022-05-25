@@ -1,0 +1,46 @@
+{
+    "Stress/Strain": {
+        "GL Strain": {
+            "Len": 6,
+            "Start": 0,
+            "Eigenvalues": false,
+            "Eigenvectors": false
+        },
+        "PK2 Stress": {
+            "Len": 6,
+            "Start": 6,
+            "Eigenvalues": false,
+            "Eigenvectors": false
+        },
+        "xi_d": {
+            "Len": 1,
+            "Start": 12,
+            "Eigenvalues": false,
+            "Eigenvectors": false
+        },
+        "D": {
+            "Len": 1,
+            "Start": 13,
+            "Eigenvalues": false,
+            "Eigenvectors": false
+        },
+        "misc": {
+            "Len": 2,
+            "Start": 14,
+            "Eigenvalues": false,
+            "Eigenvectors": false
+        },
+        "PK1 Stress": {
+            "Len": 9,
+            "Start": 16,
+            "Eigenvalues": false,
+            "Eigenvectors": false
+        },
+        "Cauchy Stress": {
+            "Len": 6,
+            "Start": 25,
+            "Eigenvalues": true,
+            "Eigenvectors": false
+        }
+    }
+}

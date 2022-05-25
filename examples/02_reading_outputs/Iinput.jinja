@@ -1,0 +1,71 @@
+FEAP * *
+0 0 0 3 3 8
+
+PARAMETER
+    xL = {{XL}}
+    yL = {{YL}}
+    zL = {{ZL}}
+    ex = {{EX}}
+    ey = {{EY}}
+    ez = {{EZ}}
+    u  = {{DISP}}
+    nt = {{NUMTS}}
+    ts = {{DT}}
+
+MATErial 1
+SOLId
+FINIte
+ELAStic NEOHook {{YOUNGS_MOD}} {{POISSON}}
+
+BLOCk
+    CART,eX,eY,eZ,,,1,10
+     1, 0 , 0,0
+     2, xL, 0,0
+     3, xL,yL,0
+     4, 0 ,yL,0
+     5, 0 , 0,zL
+     6, xL, 0,zL
+     7, xL,yL,zL
+     8, 0 ,yL,zL
+
+EBOUndary
+    3,0,0,0,1
+    1,0,1,0,0
+    2,0,0,1,0
+    3,zL,0,0,1
+    
+EDISplacement
+    3,zL,0,0,u/2
+
+END mesh
+
+BATCh
+    TPLOt
+END
+DISP,,3,0,0,zL
+SUMS,3,3,0,1.0E-12
+
+BATCh
+    prop,,1
+    dt,,ts
+    plot pers
+    plot hide
+    plot mesh
+    plot boun
+    plot axis
+    plot defo
+END
+
+BATCh   
+    loop,,nt
+      time
+      loop,,30
+        utang,,1
+      next
+      plot clear
+      plot mesh
+      plot cont 3
+    next
+END
+
+STOP
