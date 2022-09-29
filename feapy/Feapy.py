@@ -5,8 +5,8 @@ import jinja2
 import shutil
 import glob
 from .Common import get_files_by_extension, remove_old_files
-from .vtu.VTUFile import VTUFile
-from .vtu.VTURefactorer import VTURefactorer
+from .VTUFile import VTUFile
+from .VTURefactorer import VTURefactorer
 import datetime
 
 
