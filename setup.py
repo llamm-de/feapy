@@ -22,7 +22,8 @@ setup(
     ],
     license="MIT",
     packages=["feapy"],
-    install_requires=["pandas", "jinja2", "numpy", "meshio"],
+    install_requires=["pandas", "jinja2", "numpy", "meshio", "matplotlib"],
     include_package_data=True,
     zip_safe=False,
+    entry_points={"console_scripts": ["fplot=scripts.cmd_plot:main"]},
 )
