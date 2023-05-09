@@ -8,14 +8,14 @@ def readme():
 
 setup(
     name="FEAPy",
-    version="0.1.0",
+    version="0.2.1",
     description="Tools to include FEAP into Python scripts",
     long_description=readme(),
     url="",
     author="L. Lamm",
     author_email="lamm@ifam.rwth-aachen.de",
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: MIT",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3.8",
