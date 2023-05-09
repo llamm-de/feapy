@@ -115,6 +115,10 @@ class FEAPy:
         str_data = self._read_file(inputfile, "str", str_names)
 
         data = pd.concat([dis_data, sum_data, str_data], axis=1)
+
+        # Remove duplicate columns
+        data = data.iloc[:, ~data.columns.duplicated()].copy()
+
         return data
 
     def _read_file(self, inputfile, ext, names):
