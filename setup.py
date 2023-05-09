@@ -15,7 +15,7 @@ setup(
     author="L. Lamm",
     author_email="lamm@ifam.rwth-aachen.de",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3.8",
@@ -25,5 +25,10 @@ setup(
     install_requires=["pandas", "jinja2", "numpy", "meshio", "matplotlib"],
     include_package_data=True,
     zip_safe=False,
-    entry_points={"console_scripts": ["fplot=scripts.cmd_plot:main"]},
+    entry_points={
+        "console_scripts": [
+            "fplot=scripts.cmd_plot:main",
+            "setup_feap=scripts.cmd_feap_path:main",
+        ]
+    },
 )
