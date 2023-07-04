@@ -7,23 +7,10 @@ import os
 import time
 
 
-def _read_data(disFilePath, sumFilePath, invert_force=False):
+def _create_parser() -> argparse.ArgumentParser:
     """
-    Read force displacement data from files and return it as pandas dataframe
+    Create argument parser object
     """
-    dis_data = pd.read_csv(disFilePath, delim_whitespace=True, names=["time", "disp"])
-    sum_data = pd.read_csv(sumFilePath, delim_whitespace=True, names=["time", "force"])
-    data = pd.concat([dis_data, sum_data], axis=1)
-    data = data.loc[:, ~data.columns.duplicated()].copy()
-    if invert_force:
-        data["force"] = -1.0 * data["force"]
-
-    return data
-
-
-def main() -> None:
-
-    # Set up command line argument parsing
     parser = argparse.ArgumentParser(
         description="Plotting FEAP F-U-diagrams in realtime."
     )
@@ -54,8 +41,31 @@ def main() -> None:
     #     "--reference",
     #     help="Path to a reference computation to plot together with results.",
     # )
+
+    return parser
+
+
+def _read_data(disFilePath, sumFilePath, invert_force=False):
+    """
+    Read force displacement data from files and return it as pandas dataframe
+    """
+    dis_data = pd.read_csv(disFilePath, delim_whitespace=True, names=["time", "disp"])
+    sum_data = pd.read_csv(sumFilePath, delim_whitespace=True, names=["time", "force"])
+    data = pd.concat([dis_data, sum_data], axis=1)
+    data = data.loc[:, ~data.columns.duplicated()].copy()
+    if invert_force:
+        data["force"] = -1.0 * data["force"]
+
+    return data
+
+
+def main() -> None:
+
+    # Set up command line argument parsing
+    parser = _create_parser()
     args = parser.parse_args()
 
+    # Define path to files for data loading
     disFilePath = os.path.join(os.getcwd(), f"P{args.inputfile[1:]}a.dis")
     sumFilePath = os.path.join(os.getcwd(), f"P{args.inputfile[1:]}a.sum")
 
@@ -71,7 +81,6 @@ def main() -> None:
     plt.ion()
     fig, ax = plt.subplots(1, 1)
     (line,) = ax.plot(data[x_identifier], data[y_identifier])
-
     ax.grid()
     plt.xlabel(mappings[x_identifier])
     plt.ylabel(mappings[y_identifier])
@@ -83,10 +92,8 @@ def main() -> None:
             break
         else:
             data = _read_data(disFilePath, sumFilePath, invert_force=args.invert_force)
-            xdata = data[x_identifier]
-            ydata = data[y_identifier]
-            line.set_xdata(xdata)
-            line.set_ydata(ydata)
+            line.set_xdata(data[x_identifier])
+            line.set_ydata(data[y_identifier])
             ax.relim()
             ax.autoscale_view()
             fig.canvas.draw()
