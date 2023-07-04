@@ -27,8 +27,8 @@ setup(
     zip_safe=False,
     entry_points={
         "console_scripts": [
-            "fplot=scripts.cmd_plot:main",
-            "setup_feap=scripts.cmd_feap_path:main",
+            "fplot=feapy.cmd_plot:main",
+            "setup_feap=feapy.cmd_feap_path:main",
         ]
     },
 )
