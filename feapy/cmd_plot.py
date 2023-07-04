@@ -11,12 +11,8 @@ def _read_data(disFilePath, sumFilePath):
     """
     Read force displacement data from files and return it as pandas dataframe
     """
-    dis_data = pd.read_csv(
-        disFilePath, delim_whitespace=True, names=["timestep", "displacement"]
-    )
-    sum_data = pd.read_csv(
-        sumFilePath, delim_whitespace=True, names=["timestep", "force"]
-    )
+    dis_data = pd.read_csv(disFilePath, delim_whitespace=True, names=["time", "disp"])
+    sum_data = pd.read_csv(sumFilePath, delim_whitespace=True, names=["time", "force"])
     data = pd.concat([dis_data, sum_data], axis=1)
     data = data.loc[:, ~data.columns.duplicated()].copy()
     data["force"] = -1.0 * data["force"]
@@ -32,8 +28,20 @@ def main() -> None:
     )
     parser.add_argument("inputfile", help="Name of input file for FEAP computation.")
     parser.add_argument(
+        "--x",
+        choices=["disp", "force", "time"],
+        help="data set to be plotted on X axis. (default: disp)",
+        default="disp",
+    )
+    parser.add_argument(
+        "--y",
+        choices=["disp", "force", "time"],
+        help="data set to be plotted on Y axis. (default: force)",
+        default="force",
+    )
+    parser.add_argument(
         "--refresh",
-        help="Refresh every N milliseconds.",
+        help="refresh every N milliseconds.",
         default=100,
     )
     # parser.add_argument(
@@ -45,16 +53,21 @@ def main() -> None:
     disFilePath = os.path.join(os.getcwd(), f"P{args.inputfile[1:]}a.dis")
     sumFilePath = os.path.join(os.getcwd(), f"P{args.inputfile[1:]}a.sum")
 
+    # Decide which data sets to plot
+    mappings = {"disp": "displacement", "time": "time", "force": "force"}
+    x_identifier = args.x
+    y_identifier = args.y
+
     # Setup plotting
     plt.ion()
     fig, ax = plt.subplots(1, 1)
 
     data = _read_data(disFilePath, sumFilePath)
-    (line,) = ax.plot(data["displacement"], data["force"])
+    (line,) = ax.plot(data[x_identifier], data[y_identifier])
 
     ax.grid()
-    plt.xlabel("Displacement")
-    plt.ylabel("Force")
+    plt.xlabel(mappings[x_identifier])
+    plt.ylabel(mappings[y_identifier])
 
     # Plot loop
     while True:
@@ -63,8 +76,8 @@ def main() -> None:
             break
         else:
             data = _read_data(disFilePath, sumFilePath)
-            xdata = data["displacement"]
-            ydata = data["force"]
+            xdata = data[x_identifier]
+            ydata = data[y_identifier]
             line.set_xdata(xdata)
             line.set_ydata(ydata)
             ax.relim()
