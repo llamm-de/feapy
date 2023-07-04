@@ -7,7 +7,7 @@ import os
 import time
 
 
-def _read_data(disFilePath, sumFilePath):
+def _read_data(disFilePath, sumFilePath, invert_force=False):
     """
     Read force displacement data from files and return it as pandas dataframe
     """
@@ -15,7 +15,8 @@ def _read_data(disFilePath, sumFilePath):
     sum_data = pd.read_csv(sumFilePath, delim_whitespace=True, names=["time", "force"])
     data = pd.concat([dis_data, sum_data], axis=1)
     data = data.loc[:, ~data.columns.duplicated()].copy()
-    data["force"] = -1.0 * data["force"]
+    if invert_force:
+        data["force"] = -1.0 * data["force"]
 
     return data
 
@@ -44,6 +45,11 @@ def main() -> None:
         help="refresh every N milliseconds.",
         default=100,
     )
+    parser.add_argument(
+        "--invert_force",
+        action="store_true",
+        help="invert values of forces before plotting",
+    )
     # parser.add_argument(
     #     "--reference",
     #     help="Path to a reference computation to plot together with results.",
@@ -58,11 +64,12 @@ def main() -> None:
     x_identifier = args.x
     y_identifier = args.y
 
+    # Load data
+    data = _read_data(disFilePath, sumFilePath, invert_force=args.invert_force)
+
     # Setup plotting
     plt.ion()
     fig, ax = plt.subplots(1, 1)
-
-    data = _read_data(disFilePath, sumFilePath)
     (line,) = ax.plot(data[x_identifier], data[y_identifier])
 
     ax.grid()
@@ -75,7 +82,7 @@ def main() -> None:
         if not plt.fignum_exists(fig.number):
             break
         else:
-            data = _read_data(disFilePath, sumFilePath)
+            data = _read_data(disFilePath, sumFilePath, invert_force=args.invert_force)
             xdata = data[x_identifier]
             ydata = data[y_identifier]
             line.set_xdata(xdata)
