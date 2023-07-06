@@ -1,4 +1,4 @@
-# FEAPy - Some helpfull pyhton routines to work with FEAP
+# FEAPy - Some helpfull Python routines to work with FEAP
 
 This is a collection of helpful routines to work with the finite element software FEAP. Features are e.g. execution of simulations from within python, automatic creation of input files, gathering of results from output files, refactoring of ```.vtu``` exports ets.
 
@@ -60,6 +60,11 @@ routine. This will create a new and unique folder within your working directory 
 
 ### Refactoring vtu output
 TBC
+
+## Command line tools
+FEAPy provides some helpful command line tools that are automatically installed along with FEAPy. These are:
+    - fplot: A tool for automatic plotting of force displacement curves if .dis and .sum files are provided
+    - setup_feap: A tool to automatically setup the global feap path on your system, i.e. you can use FEAP from where ever you want.
 
 ## Licensing
 This package is distributed under the MIT License. For further details please see the [License.md](LICENSE.md) file.
