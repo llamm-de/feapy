@@ -16,23 +16,27 @@ def _create_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("input_file", help="Name of input file for FEAP computation.")
     parser.add_argument(
-        "--x",
+        "-x",
+        "--x_values",
         choices=["disp", "force", "time"],
         help="data set to be plotted on X axis. (default: disp)",
         default="disp",
     )
     parser.add_argument(
-        "--y",
+        "-y",
+        "--y_values",
         choices=["disp", "force", "time"],
         help="data set to be plotted on Y axis. (default: force)",
         default="force",
     )
     parser.add_argument(
+        "-r",
         "--refresh",
         help="refresh every N milliseconds.",
         default=100,
     )
     parser.add_argument(
+        "-i",
         "--invert_force",
         action="store_true",
         help="invert values of forces before plotting",
@@ -66,8 +70,8 @@ def main() -> None:
     args = parser.parse_args()
 
     # Define path to files for data loading
-    disFilePath = os.path.join(os.getcwd(), f"P{args.inputfile[1:]}a.dis")
-    sumFilePath = os.path.join(os.getcwd(), f"P{args.inputfile[1:]}a.sum")
+    disFilePath = os.path.join(os.getcwd(), f"P{args.input_file[1:]}a.dis")
+    sumFilePath = os.path.join(os.getcwd(), f"P{args.input_file[1:]}a.sum")
 
     # Decide which data sets to plot
     mappings = {"disp": "displacement", "time": "time", "force": "force"}
