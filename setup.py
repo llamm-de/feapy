@@ -22,13 +22,14 @@ setup(
     ],
     license="MIT",
     packages=["feapy"],
-    install_requires=["pandas", "jinja2", "numpy", "meshio", "matplotlib"],
+    install_requires=["pandas", "jinja2", "numpy", "meshio", "matplotlib", "tqdm"],
     include_package_data=True,
     zip_safe=False,
     entry_points={
         "console_scripts": [
             "fplot=feapy.cmd_plot:main",
             "setup_feap=feapy.cmd_feap_path:main",
+            "wand=feapy.cmd_wand:main",
         ]
     },
 )
