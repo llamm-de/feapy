@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="FEAPy",
-    version="0.2.1",
+    version="0.2.2",
     description="Tools to include FEAP into Python scripts",
     long_description=readme(),
     url="",
