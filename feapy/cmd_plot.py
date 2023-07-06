@@ -12,9 +12,9 @@ def _create_parser() -> argparse.ArgumentParser:
     Create argument parser object
     """
     parser = argparse.ArgumentParser(
-        description="Plotting FEAP F-U-diagrams in realtime."
+        description="Plotting FEAP F-U-diagrams and beyond in realtime."
     )
-    parser.add_argument("inputfile", help="Name of input file for FEAP computation.")
+    parser.add_argument("input_file", help="Name of input file for FEAP computation.")
     parser.add_argument(
         "--x",
         choices=["disp", "force", "time"],
