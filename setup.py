@@ -22,7 +22,15 @@ setup(
     ],
     license="MIT",
     packages=["feapy"],
-    install_requires=["pandas", "jinja2", "numpy", "meshio", "matplotlib", "tqdm"],
+    install_requires=[
+        "pandas",
+        "jinja2",
+        "numpy",
+        "meshio",
+        "matplotlib",
+        "tqdm",
+        "joblib",
+    ],
     include_package_data=True,
     zip_safe=False,
     entry_points={

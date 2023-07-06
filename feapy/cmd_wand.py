@@ -4,6 +4,7 @@ from .VTUFile import VTUFile
 from .VTURefactorer import VTURefactorer
 import json
 from tqdm import tqdm
+from joblib import Parallel, delayed
 
 
 def _create_parser() -> argparse.ArgumentParser:
@@ -18,27 +19,28 @@ def _create_parser() -> argparse.ArgumentParser:
         "--input_file",
         type=str,
         default="Iinput",
-        help="Name of input file for FEAP computation.",
+        help="Name of input file for FEAP computation. (Default: Iinput)",
     )
     parser.add_argument(
         "-m",
         "--mapping_file",
         type=str,
         default="mapping.json",
-        help="Name of mapping file used for conversion.",
+        help="Name of mapping file used for conversion. (Default: mapping.json)",
+    )
+    parser.add_argument(
+        "-j",
+        "--jobs",
+        type=int,
+        default=-1,
+        help="Number of parallel jobs. (Default: Maxmimum number of cores available)",
     )
     parser.add_argument(
         "-r",
         "--remove_originals",
         action="store_true",
-        help="Run conversion in parallel.",
+        help="Remove original vtu files. (Default: False)",
     )
-    # parser.add_argument(
-    #     "-p",
-    #     "--parallel",
-    #     action="store_true",
-    #     help="Run conversion in parallel.",
-    # )
 
     return parser
 
@@ -67,6 +69,8 @@ def main() -> None:
     mapping_path = base_path / args.mapping_file
     if not mapping_path.exists():
         raise FileNotFoundError(f"{mapping_path.as_posix()} does not exist.")
+    else:
+        print(f"Selected mapping: {mapping_path.as_posix()}")
     with mapping_path.open() as f:
         refactoring_pattern = json.load(f)
 
@@ -76,14 +80,25 @@ def main() -> None:
     if not vtu_files:
         raise FileNotFoundError("No vtu-files found in this directory.")
 
-    # Perform refactoring
-    for vtu_file in tqdm(vtu_files, desc="Refactoring files:"):
-        _refactor_vtu_file(vtu_file, refactoring_pattern)
+    # Perform refactoring using parallel computing
+    Parallel(n_jobs=args.jobs)(
+        delayed(_refactor_vtu_file)(vtu_file, refactoring_pattern)
+        for vtu_file in tqdm(
+            vtu_files,
+            desc="Refactoring files",
+            total=len(vtu_files),
+            colour="green",
+        )
+    )
 
     # Remove old files if selected
-    print(args.remove_originals)
     if args.remove_originals:
-        for vtu_file in tqdm(vtu_files, desc="Removing original files:"):
+        for vtu_file in tqdm(
+            vtu_files,
+            desc="Removing original files",
+            total=len(vtu_files),
+            colour="green",
+        ):
             vtu_file.unlink(missing_ok=False)
 
 
